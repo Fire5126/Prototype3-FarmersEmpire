@@ -135,3 +135,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1b5c9d20dd3ce41b335d85fe51bab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantableTile
+  plantPrefab: {fileID: 3585260679201708460, guid: 0b49a07ed47726c488a07b03e4921f26, type: 3}

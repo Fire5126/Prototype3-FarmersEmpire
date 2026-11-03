@@ -17,6 +17,9 @@ namespace COMP2165.Clicker
         public GameObject buildingControls, buildingList, upgradeList, eventOverlay, toastPanel, loadingPanel;
         public RectTransform buildingContent, upgradeContent;
         public ClickerShopRow buildingTemplate, upgradeTemplate;
+        public FarmGrid farmGrid;
+        public TickObserver tickObserver;
+        public SeedSelectionManager seedSelectionManager;
     }
 
 }

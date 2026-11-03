@@ -1,0 +1,4 @@
+id,name,Seed Sprite,Adolescent Sprite,Plant Sprite,yieldModifier,growthModifier,chanceToRepopulate,seedLifetime,adolescentLifeTime,plantLifeTime,yieldAmount,impactfulPlants
+wheatSeed,Wheat Seed,,,,1,1,0,10,10,10,1,
+cornSeed,Corn Seed,,,,1.5,1,2,10,10,10,1,cornSeed
+riceSeed,Rice Seed,,,,1,1,0,10,10,10,1,

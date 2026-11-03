@@ -66,10 +66,9 @@ namespace COMP2165.Clicker
     [Serializable] public class BuildingSave { public string id; public int count; }
     [Serializable] public class CurrencySave { public string id; public float amount, lifetime; }
 
-    [Serializable] public class farmData { public string id; public int totalWidth, totalHeight, currentWidth, currentHeight;}
+    [Serializable] public class FarmData { public string id, name, unlockID; public int width, height; }
 
-    [Serializable] public class plantData { public string id, name, description, tooltip, image; public float growthTime, yieldAmount; }
-
+    [Serializable] public class PlantData { public string id, name, description, tooltip, image; public float seedLifeTime, adolescentLifeTime, plantLifeTime, yieldModifier, growthModifier, chanceToRepopulate; public int yieldAmount; public string[] impactfulPlants; }
 
     [Serializable] public class ClickerSave
     {

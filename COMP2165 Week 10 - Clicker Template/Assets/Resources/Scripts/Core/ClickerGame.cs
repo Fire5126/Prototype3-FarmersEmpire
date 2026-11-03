@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using uClicker;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using uClicker;
 
 namespace COMP2165.Clicker
 {
@@ -27,8 +29,8 @@ namespace COMP2165.Clicker
         readonly Dictionary<string, Clickable> clickAssets = new Dictionary<string, Clickable>(StringComparer.OrdinalIgnoreCase);
         readonly List<BuildingData> buildings = new List<BuildingData>();
         readonly List<UpgradeData> upgrades = new List<UpgradeData>();
-        readonly List<plantData> plants = new List<plantData>();
-        readonly List<farmData> farm = new List<farmData>();
+        readonly List<PlantData> plants = new List<PlantData>();
+        readonly List<FarmData> farm = new List<FarmData>();
         readonly List<EventData> events = new List<EventData>();
         readonly List<EventData> eventQueue = new List<EventData>();
         readonly List<float> eventBoostEnds = new List<float>();
@@ -51,7 +53,8 @@ namespace COMP2165.Clicker
         string error, toast;
         float toastUntil, nextTick, nextEvent, nextGold, nextSave, goldEnd;
         float goldBonus = 7, bonusDuration = 20, eventInterval = 35, goldInterval = 50, wrongPenalty = 0.1f, sellRefund = 0.5f, shopReveal = 0.5f;
-
+        int farmUpgrade = 0;
+        private float currentClickTickModifier = 0.1f;
         void Start()
         {
             ConfigureInputModule();
@@ -81,7 +84,7 @@ namespace COMP2165.Clicker
 
         IEnumerator LoadGame()
         {
-            string[] tables = { "Settings", "Currencies", "Buildings", "Upgrades", "Events", "Visuals", "Audio", "Palette" };
+            string[] tables = { "Settings", "Currencies", "Buildings", "Upgrades", "Events", "Visuals", "Audio", "Palette", "Farm", "Plant",};
             var loaded = new Dictionary<string, List<Dictionary<string, string>>>();
             foreach (string table in tables)
             {
@@ -163,6 +166,25 @@ namespace COMP2165.Clicker
                 }
             }
             foreach (var row in loaded["Audio"]) audioPaths[Csv.Get(row, "key")] = Csv.Get(row, "path");
+
+            foreach (var row in loaded["Farm"])
+            {
+                var item = new FarmData { id = Csv.Get(row, "id"), name = Csv.Get(row, "name"), unlockID = Csv.Get(row, "unlockID"), width = (int) Csv.Number(row, "width"), height = (int) Csv.Number(row, "height") };
+                if (string.IsNullOrEmpty(item.id)) { error = "Invalid Farm.csv row."; yield break; }
+                farm.Add(item);
+            }
+
+            foreach (var row in loaded["Plant"])
+            {
+                //id, name, description, tooltip, image; public float seedLifetime, adolescentLifeTime, plantLifeTime, yieldModifier, growthModifier, chanceToRepopulate; public int yieldAmount; public string[] impactfulPlants;
+                var item = new PlantData { id = Csv.Get(row, "id"), name = Csv.Get(row, "name"), description = Csv.Get(row, "description"), tooltip = Csv.Get(row, "tooltip"), seedLifeTime = (float)Csv.Number(row, "seedLifetime"), adolescentLifeTime = (float)Csv.Number(row, "adolescentLifeTime"), plantLifeTime = (float)Csv.Number(row, "plantLifeTime"), yieldModifier = (float)Csv.Number(row, "yieldModifier"), growthModifier = (float)Csv.Number(row, "growthModifier"), chanceToRepopulate = (float)Csv.Number(row, "chanceToRepopulate"), yieldAmount = (int)Csv.Number(row, "yieldAmount"), impactfulPlants = Csv.Get(row, "impactfulPlants").Split(';') };
+                if (string.IsNullOrEmpty(item.id)) { error = "Invalid Plant.csv row."; yield break; }
+                plants.Add(item);
+            }
+
+            ui.farmGrid.InitialiseFarm(farm[farmUpgrade].width, farm[farmUpgrade].height);
+            ui.seedSelectionManager.SetSeedSelection(plants);
+
             SetupEconomy();
             if (!string.IsNullOrEmpty(error)) yield break;
             LoadProgress();
@@ -308,19 +330,34 @@ namespace COMP2165.Clicker
             { goldVisible = true; nextGold = Time.time + goldInterval; }
             if (Time.time >= nextSave) { SaveProgress(); nextSave = Time.time + 15; }
             RefreshCanvas();
+
+            if (Keyboard.current.aKey.wasPressedThisFrame)
+            {
+                farmUpgrade++;
+                if (farmUpgrade >= farm.Count)
+                {
+                    Debug.Log("No more farm upgrades available.");
+                }
+                else
+                {
+                    ui.farmGrid.ExpandFarm(farm[farmUpgrade].width, farm[farmUpgrade].height);
+                }
+            }
         }
 
         void ClickCookie()
         {
             EnsureMusic();
-            foreach (var row in currencyDefinitions)
-            {
-                if (row.clickAmount <= 0) continue;
-                var source = clickAssets[row.id];
-                source.Amount = row.clickAmount * Multiplier;
-                manager.Click(source);
-                source.Amount = row.clickAmount;
-            }
+            //foreach (var row in currencyDefinitions)
+            //{
+            //    if (row.clickAmount <= 0) continue;
+            //    var source = clickAssets[row.id];
+            //    source.Amount = row.clickAmount * Multiplier;
+            //    manager.Click(source);
+            //    source.Amount = row.clickAmount;
+            //}
+
+            ui.tickObserver.ModifyTickTimer(-currentClickTickModifier);
             PlaySound("click");
         }
 
@@ -799,4 +836,5 @@ namespace COMP2165.Clicker
         }
 
     }
+
 }

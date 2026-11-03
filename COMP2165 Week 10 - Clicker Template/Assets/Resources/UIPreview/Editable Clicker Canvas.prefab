@@ -325,6 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39c003605ee970145983ddf4e08d0f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::COMP2165.Clicker.ClickerCanvasView
+  layoutVersion: 3
   background: {fileID: 330507690260545090}
   cookie: {fileID: 7674320537902728735}
   goldenCookie: {fileID: 4506664977144952860}
@@ -367,6 +368,9 @@ MonoBehaviour:
   upgradeContent: {fileID: 4273354600581489228}
   buildingTemplate: {fileID: 956305789401952007}
   upgradeTemplate: {fileID: 2000982454971700788}
+  farmGrid: {fileID: 0}
+  tickObserver: {fileID: 0}
+  seedSelectionManager: {fileID: 0}
 --- !u!1 &315018075247644970
 GameObject:
   m_ObjectHideFlags: 0
@@ -2863,6 +2867,8 @@ MonoBehaviour:
   description: {fileID: 6669996982533110337}
   actionText: {fileID: 5154852280703247049}
   action: {fileID: 6352937265341736929}
+  tooltip: {fileID: 0}
+  tooltipText: 
 --- !u!1 &4092986030491127135
 GameObject:
   m_ObjectHideFlags: 0
@@ -5251,6 +5257,8 @@ MonoBehaviour:
   description: {fileID: 6951607550453707474}
   actionText: {fileID: 6246238768173301091}
   action: {fileID: 8819550660630537394}
+  tooltip: {fileID: 0}
+  tooltipText: 
 --- !u!1 &8093300695473228911
 GameObject:
   m_ObjectHideFlags: 0
