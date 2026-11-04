@@ -1,4 +1,5 @@
-id,name,Seed Sprite,Adolescent Sprite,Plant Sprite,yieldModifier,growthModifier,chanceToRepopulate,seedLifetime,adolescentLifeTime,plantLifeTime,yieldAmount,impactfulPlants
-wheatSeed,Wheat Seed,,,,1,1,0,10,10,10,1,
-cornSeed,Corn Seed,,,,1.5,1,2,10,10,10,1,cornSeed
-riceSeed,Rice Seed,,,,1,1,0,10,10,10,1,
+id,name,seedSprite,adolescentSprite,plantSprite,yieldModifier,growthModifier,chanceToRepopulate,seedLifetime,adolescentLifeTime,plantLifeTime,yieldAmount,impactfulPlants,unlockConditions,sellingPrice,cost,flavour text
+wheatSeed,Wheat Seed,,,,1,1,0,2,3,5,10,,,1,0,Wheat a farmer's basic needs. Easily accessible and free to get. Every farmer starts with this plant
+cornSeed,Corn Seed,,,,1.5,1,2,4,5,5,4,cornSeed,,4,5,
+riceSeed,Rice Seed,,,,1,1,0,3,4,8,20,,,2.5,12,
+walkingPalm,Walking Palm,,,,1,1,40,10,10,12,30,,,6,18,

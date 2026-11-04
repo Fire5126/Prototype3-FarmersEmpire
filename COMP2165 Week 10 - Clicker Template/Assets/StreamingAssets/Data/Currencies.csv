@@ -1,9 +1,8 @@
-"id","name","starting_amount","click_amount"
-"cookies","$","0","1"
-"sugar","Sugar","0","0"
-"wheat","Wheat","0","0"
-"wheatSeed","Wheat Seed","5","0"
-"corn","Corn","0","0"
-"cornSeed","Corn Seed","0","0"
-"rice","Rice","",""
-"riceSeed","riceSeed","",""
+id,name,starting_amount,click_amount
+money,$,0,1
+fertiliser,Fertiliser,0,0
+tickTimer,Tick Timer,0,0
+wheat,Wheat,0,0
+corn,Corn,0,0
+rice,Rice,0,0
+walkingPalm,Walking Palm,0,0
